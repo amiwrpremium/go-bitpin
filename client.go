@@ -217,7 +217,7 @@ func (c *Client) createApiURI(endpoint string, version string) string {
 	if version == "" {
 		version = Version
 	}
-	return fmt.Sprintf("%s/api/%s%s", BaseUrl, version, endpoint)
+	return fmt.Sprintf("%s/api/%s%s", c.BaseUrl, version, endpoint)
 }
 
 // handleAutoRefresh ensures the client's tokens are valid and refreshes them if necessary.

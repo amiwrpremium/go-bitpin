@@ -3,6 +3,7 @@ package bitpin
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/amiwrpremium/go-bitpin/types"
 )
 
 // GoBitpinError is the base error type for all errors in the SDK
@@ -68,11 +69,7 @@ func parseErrorResponse(statusCode int, respBody []byte) *APIError {
 	}
 
 	// Try parsing as ErrorResponse struct
-	var errResp struct {
-		Detail   string            `json:"detail"`
-		Code     string            `json:"code"`
-		Messages map[string]string `json:"messages"`
-	}
+	var errResp types.ErrorResponse
 	if err := json.Unmarshal(respBody, &errResp); err == nil {
 		details = make(map[string][]string)
 		if errResp.Detail != "" {
