@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 // StructToURLParams converts a struct to a URL-encoded query string.
@@ -74,6 +75,16 @@ func StructToURLParams(inputStruct interface{}) (string, error) {
 		key := field.Tag.Get("json")
 		if key == "" || key == "-" {
 			continue // Skip fields without a "json" tag or explicitly ignored
+		}
+
+		// Strip omitempty and other options from the json tag
+		if commaIdx := strings.Index(key, ","); commaIdx != -1 {
+			key = key[:commaIdx]
+		}
+
+		// After stripping options, check if key is empty
+		if key == "" {
+			continue
 		}
 
 		// Skip zero values
